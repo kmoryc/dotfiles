@@ -7,7 +7,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-"================ Terminal ================
+"================ Colors ================
 if (empty($TMUX))
   if (has("nvim"))
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -26,22 +26,30 @@ let g:onedark_color_overrides = {
 
 colorscheme onedark
 
-
-"================ Editor ================
+"=============== Layout ================
 Plugin 'preservim/nerdtree'
 autocmd VimEnter * NERDTree | wincmd p
 let NERDTreeShowHidden=1
-"let g:NERDTreeFileLines = 1
-nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
 
 " Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
 
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Vertical ruler
+:set colorcolumn=80
+
+"================ Behavior ================
+" Show existing tab with 4 spaces width. Use 4 spaces for tab and '>' indent.
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Vertical split - newly opened pane to appear of the right
+:set splitright
 
 "================ | ================
 
