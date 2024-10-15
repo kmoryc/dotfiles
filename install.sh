@@ -31,9 +31,15 @@ function install_vim() {
   cp $_onedark_dir/colors/onedark.vim ~/.vim/colors/onedark.vim  
   mkdir -p ~/.vim/autoload
   cp $_onedark_dir/autoload/onedark.vim ~/.vim/autoload/onedark.vim
+
+  vim +silent +VimEnter +PluginInstall +qall
 }
 
-JOB=${1:-ubuntu}
+JOB=${1:-}
+if [ -z $1 ]; then
+  echo "Missing required 1st argument: OS"
+  exit 1
+fi
 
 case $JOB in
   ubuntu)
