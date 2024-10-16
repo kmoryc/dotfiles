@@ -42,7 +42,13 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " Vertical ruler
 :set colorcolumn=80
 
+"================ YCM ================
+Plugin 'ycm-core/YouCompleteMe'
+
 "================ Behavior ================
+" Make backspace work
+set backspace=indent,eol,start
+
 " Show existing tab with 4 spaces width. Use 4 spaces for tab and '>' indent.
 set tabstop=4
 set shiftwidth=4
