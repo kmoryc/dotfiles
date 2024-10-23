@@ -6,10 +6,7 @@ function install_python_ubuntu() {
   sudo apt install python3-pip python3-venv ctags
 }
 
-function install_vim() {
-  #sudo apt install -y vim
-  rebuild_vim_from_sources
-
+function install_vimrc() {
   ln -sf $(pwd)/.vimrc ~/.vimrc
   ln -sf $(pwd)/.inputrc ~/.inputrc
 
@@ -80,6 +77,22 @@ function install_ycm() {
   popd
 }
 
+function install_bash_aliases() {
+  aliases_path=$(pwd)/bash_aliases
+  cp ~/.bashrc ~/.bashrc_backup
+
+  if grep "$aliases_path" ~/.bashrc; then
+    echo "Path $aliases_path already present in ~/.bashrc"
+    exit 0
+  fi
+
+  echo "
+if [ -f $aliases_path ]; then
+  . $aliases_path
+fi
+" >> ~/.bashrc  
+}
+
 JOB=${1:-}
 if [ -z $1 ]; then
   echo "Missing required 1st argument: OS"
@@ -88,8 +101,17 @@ fi
 
 case $JOB in
   ubuntu)
-    install_vim
+    install_bash_aliases
+    rebuild_vim_from_sources
+    install_vimrc
     install_ycm
+    ;;
+  vimrc)
+    install_vimrc
+    install_ycm
+    ;;
+  bash)
+    install_bash_aliases
     ;;
 esac
 

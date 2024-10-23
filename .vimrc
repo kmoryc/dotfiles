@@ -44,6 +44,9 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 
 "================ YCM ================
 Plugin 'ycm-core/YouCompleteMe'
+nmap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let $PYTHONPATH .= getcwd()
 
 "================ Behavior ================
 " Make backspace work
