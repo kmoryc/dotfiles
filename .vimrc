@@ -7,6 +7,13 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
+"================ Cursor ================
+let &t_SI = "\e[5 q"   " cursor in insert mode
+let &t_EI = "\e[1 q"   " cursor in normal mode
+let &t_SR = "\e[3 q"   " cursor in replace mode
+let &t_ti .= "\e[2 q"  " cursor when vim starts
+let &t_te .= "\e[5 q"  " cursor when vim exits
+
 "================ Colors ================
 if (empty($TMUX))
   if (has("nvim"))
@@ -27,6 +34,8 @@ let g:onedark_color_overrides = {
 colorscheme onedark
 
 "=============== Layout ================
+set number
+
 Plugin 'preservim/nerdtree'
 autocmd VimEnter * NERDTree | wincmd p
 let NERDTreeShowHidden=1
@@ -40,7 +49,7 @@ autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silen
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Vertical ruler
-:set colorcolumn=80
+set colorcolumn=80
 
 "================ YCM ================
 Plugin 'ycm-core/YouCompleteMe'
@@ -48,7 +57,14 @@ nmap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let $PYTHONPATH .= getcwd()
 
+" Custom completion window behavior
+let g:ycm_key_list_select_completion = ['<TAB>']
+let g:ycm_key_list_stop_completion = ['<C-y>', '<UP>', '<DOWN>']
+
 "================ Behavior ================
+" Make search highlight all occurences
+set hlsearch
+
 " Make backspace work
 set backspace=indent,eol,start
 

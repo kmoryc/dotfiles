@@ -108,7 +108,6 @@ case $JOB in
     ;;
   vimrc)
     install_vimrc
-    install_ycm
     ;;
   bash)
     install_bash_aliases
