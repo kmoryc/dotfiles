@@ -9,6 +9,7 @@ function install_python_ubuntu() {
 function install_vimrc() {
   ln -sf $(pwd)/.vimrc ~/.vimrc
   ln -sf $(pwd)/.inputrc ~/.inputrc
+  cp -f $(pwd)/lib.vim ~/.vim/autoload/lib.vim
 
   _vundle_dir=~/.vim/bundle/Vundle.vim
   _vundle_url=https://github.com/VundleVim/Vundle.vim.git
