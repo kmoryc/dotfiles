@@ -9,6 +9,12 @@ function install_python_ubuntu() {
 function install_vimrc() {
   ln -sf $(pwd)/.vimrc ~/.vimrc
   ln -sf $(pwd)/.inputrc ~/.inputrc
+
+  _autoload_dir=~/.vim/autoload
+  if [ ! -d $autoload_dir ]; then
+    echo "Creating $_autoload_dir directory..."
+    mkdir -p $_autoload_dir
+  fi
   cp -f $(pwd)/lib.vim ~/.vim/autoload/lib.vim
 
   _vundle_dir=~/.vim/bundle/Vundle.vim

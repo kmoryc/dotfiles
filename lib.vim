@@ -22,7 +22,7 @@ endfunction
 function! lib#SetupNERDTree()
   Plugin 'preservim/nerdtree'
 
-  autocmd VimEnter * NERDTree | wincmd p
+  autocmd VimEnter * NERDTree
   nnoremap <C-n> :NERDTree<CR>
   nnoremap <C-t> :NERDTreeToggle<CR>
 
