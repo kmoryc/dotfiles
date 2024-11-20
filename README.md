@@ -1,2 +1,2 @@
-# setup
-Setup files useful for setting up / restoring local development environment
+# Dotfiles
+Config files useful when setting up / restoring personal development environment
