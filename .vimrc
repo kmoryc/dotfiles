@@ -38,23 +38,24 @@ let &t_EI = "\e[1 q"   " cursor in normal mode
 let &t_SR = "\e[3 q"   " cursor in replace mode
 let &t_ti .= "\e[2 q"  " cursor when vim starts
 let &t_te .= "\e[5 q"  " cursor when vim exits
+set whichwrap+=<,>,[,] " let the left/right arrows go to newline
 
 " Git
 Plugin 'tpope/vim-fugitive'
-nmap <leader>gs :G status
-let GIT_DEFEAULT_BRANCH = "master"
-nmap <leader>gd :G diff
-nmap <leader>gl :G --no-pager log --oneline -10
+nmap <leader>gits :G status
+let GIT_DEFAULT_BRANCH = "master"
+nmap <leader>gitd :G diff
+nmap <leader>gitl :G --no-pager log --oneline -10
 "nmap <leader>gle :G --no-pager log --oneline --pretty=format:"%C(Yellow)%h%C(reset)%x20|%x20%ad%x20|%x20%ae%x20|%x20%s" --date=short -10"
 "nmap <leader>glee :G --no-pager log --oneline --pretty=format:"%C(Yellow)%h%C(reset)%x20|%x20%ad%x20|%x20%ae%x20|%x20%s" --date=format:'%Y-%m-%d %H:%M:%S' -10"
-nmap <leader>gau :G add -u
-"nmap <leader>gc :G add -u && :G commit
-"nmap <leader>gam :G add -u && :G commit --amend
-"nmap <leader>gr :G push origin HEAD:refs/for/&GIT_DEFEAULT_BRANCH
-"nmap <leader>gamp <leader>gitau && :G commit --amend --no-edit && <leader>gitr
-"nmap <leader>gp :G push origin &GIT_DEFEAULT_BRANCH
-"nmap <leader>gpp <leader>gitau && :G commit --amend --no-edit && <leader>gitp
-nmap <leader>gurl :G remote -v
+nmap <leader>gitau :G add -u
+"nmap <leader>gitc :G add -u && :G commit
+nmap <leader>gitam :G add -u <bar> :G commit --amend
+nmap <leader>gitr :G push origin HEAD:refs/for/master
+nmap <leader>gitamp :G add -u <bar> :G commit --amend --no-edit <bar> :G push origin HEAD:refs/for/master
+nmap <leader>gitp :G push origin master
+nmap <leader>gitpp :G add -u <bar> :G commit --amend --no-edit <bar> :G push origin master
+nmap <leader>giturl :G remote -v
 
 
 "================ Search ================

@@ -100,13 +100,13 @@ fi
 " >> ~/.bashrc  
 }
 
-JOB=${1:-}
+MODE=${1:-}
 if [ -z $1 ]; then
-  echo "Missing required 1st argument: OS"
+  echo "Missing required 1st argument: <INSTALLATION_MODE>"
   exit 1
 fi
 
-case $JOB in
+case $MODE in
   ubuntu)
     install_bash_aliases
     rebuild_vim_from_sources
