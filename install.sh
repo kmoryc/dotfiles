@@ -57,20 +57,21 @@ function rebuild_vim_from_sources() {
   fi
   git clone $_vim_url $_vim_dir
   pushd $_vim_dir
+  _vim_install_dir=~/usr/local
   ./configure --with-features=huge \
             --enable-python3interp=yes \
             --with-python3-config-dir=$(python3-config --configdir) \
             --enable-gui=gtk2 \
             --enable-cscope \
-            --prefix=/usr/local
-  make VIMRUNTIMEDIR=/usr/local/share/vim/vim91
+            --prefix=$_vim_install_dir
+  make VIMRUNTIMEDIR=$_vim_install_dir/share/vim/vim91
 
   sudo make install
 
-  sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-  sudo update-alternatives --set editor /usr/local/bin/vim
-  sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1
-  sudo update-alternatives --set vi /usr/local/bin/vim  
+  sudo update-alternatives --install ~/usr/bin/editor editor $_vim_install_dir/bin/vim 1
+  sudo update-alternatives --set editor $_vim_install_dir/bin/vim
+  sudo update-alternatives --install ~/usr/bin/vi vi $_vim_install_dir/bin/vim 1
+  sudo update-alternatives --set vi $_vim_install_dir/bin/vim  
   
   vim --version | head -n 3
 
