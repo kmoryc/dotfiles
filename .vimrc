@@ -81,6 +81,12 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
+" Indent folding
+set foldlevel=99
+set foldmethod=indent
+nnoremap <space> za
+vnoremap <space> zf
+
 "================ | ================
 
 call vundle#end()
