@@ -19,6 +19,9 @@ set colorcolumn=80 " Vertical ruler
 set scrolloff=8
 set sidescrolloff=15
 set sidescroll=1
+" Scroll with cursor staying at the same place
+nnoremap <C-K> k<C-Y>
+nnoremap <C-J> j<C-E>
 
 " Navigation between windows
 nmap <TAB> <C-w>w
