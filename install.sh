@@ -86,7 +86,7 @@ function install_ycm() {
 }
 
 function install_bash_aliases() {
-  aliases_path=$(pwd)/bash_aliases
+  aliases_path=$(pwd)/.bash_aliases
   cp ~/.bashrc ~/.bashrc_backup
 
   if grep "$aliases_path" ~/.bashrc; then
@@ -98,7 +98,9 @@ function install_bash_aliases() {
 if [ -f $aliases_path ]; then
   . $aliases_path
 fi
-" >> ~/.bashrc  
+" >> ~/.bashrc
+
+source ~/.bashrc
 }
 
 MODE=${1:-}
