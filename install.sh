@@ -50,32 +50,26 @@ function rebuild_vim_from_sources() {
   sudo apt remove -y vim vim-runtime gvim
 
   _vim_dir=~/vim
-  _vim_url=https://github.com/vim/vim.git 
+  _vim_repo_url=https://github.com/vim/vim.git
   if [ -d $_vim_dir ]; then
     echo "Directory $_vim_dir already exists. Removing..."
     rm -rf $_vim_dir
   fi
-  git clone $_vim_url $_vim_dir
+  git clone $_vim_repo_url $_vim_dir
+
   pushd $_vim_dir
-  _vim_install_dir=~/usr/local
-  ./configure --with-features=huge \
-            --enable-python3interp=yes \
-            --with-python3-config-dir=$(python3-config --configdir) \
-            --enable-gui=gtk2 \
-            --enable-cscope \
-            --prefix=$_vim_install_dir
-  make VIMRUNTIMEDIR=$_vim_install_dir/share/vim/vim91
-
-  sudo make install
-
-  sudo update-alternatives --install ~/usr/bin/editor editor $_vim_install_dir/bin/vim 1
-  sudo update-alternatives --set editor $_vim_install_dir/bin/vim
-  sudo update-alternatives --install ~/usr/bin/vi vi $_vim_install_dir/bin/vim 1
-  sudo update-alternatives --set vi $_vim_install_dir/bin/vim  
-  
-  vim --version | head -n 3
-
+    _vim_install_dir=~/.local
+    ./configure --with-features=huge \
+                --enable-python3interp=yes \
+                --with-python3-config-dir=$(python3-config --configdir) \
+                --enable-gui=gtk2 \
+                --enable-cscope \
+                --prefix=$_vim_install_dir
+    make VIMRUNTIMEDIR=$_vim_install_dir/share/vim/vim91
+    make install
   popd
+
+  vim --version | head -n 3
 }
 
 function install_ycm() { 
@@ -91,14 +85,13 @@ function install_bash_aliases() {
 
   if grep "$aliases_path" ~/.bashrc; then
     echo "Path $aliases_path already present in ~/.bashrc"
-    exit 0
-  fi
-
+  else
   echo "
 if [ -f $aliases_path ]; then
   . $aliases_path
 fi
 " >> ~/.bashrc
+  fi
 
 source ~/.bashrc
 }
