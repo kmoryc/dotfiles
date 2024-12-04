@@ -69,6 +69,8 @@ function rebuild_vim_from_sources() {
     make install
   popd
 
+  sudo ln -sf $_vim_install_dir/bin/vim /usr/local/bin/vim
+
   vim --version | head -n 3
 }
 
@@ -107,7 +109,9 @@ case $MODE in
     install_bash_aliases
     rebuild_vim_from_sources
     install_vimrc
-    install_ycm
+    ;;
+  vim)
+    rebuild_vim_from_sources
     ;;
   vimrc)
     install_vimrc
