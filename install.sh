@@ -11,7 +11,7 @@ function install_vimrc() {
   ln -sf $(pwd)/.inputrc ~/.inputrc
 
   _autoload_dir=~/.vim/autoload
-  if [ ! -d $autoload_dir ]; then
+  if [ ! -d $_autoload_dir ]; then
     echo "Creating $_autoload_dir directory..."
     mkdir -p $_autoload_dir
   fi
@@ -86,20 +86,34 @@ function set_defaults() {
 }
 
 function install_bash_aliases() {
-  aliases_path=$(pwd)/.bash_aliases
+  _aliases_path=$(pwd)/.bash_aliases
   cp ~/.bashrc ~/.bashrc_backup
 
-  if grep "$aliases_path" ~/.bashrc; then
-    echo "Path $aliases_path already present in ~/.bashrc"
+  if grep "$_aliases_path" ~/.bashrc; then
+    echo "Path $_aliases_path already present in ~/.bashrc"
   else
   echo "
-if [ -f $aliases_path ]; then
-  . $aliases_path
+if [ -f $_aliases_path ]; then
+  . $_aliases_path
 fi
 " >> ~/.bashrc
   fi
 
 source ~/.bashrc
+}
+
+function install_zsh() {
+  _ohmyzsh_folder=$HOME/.oh-my-zsh
+  if [ ! -d $_ohmyzsh_folder ]; then
+    echo "Installing OhMyZsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  else
+    echo "Folder $_ohmyzsh_folder already exists. Skipping installation of OhMyZsh.."
+  fi
+
+  zshrc_path=$(pwd)/.zshrc
+  cp ~/.zshrc ~/.zshrc_backup
+  cp $zshrc_path ~/.zshrc
 }
 
 
@@ -112,6 +126,7 @@ fi
 case $MODE in
   ubuntu)
     install_bash_aliases
+    install_zsh
     rebuild_vim_from_sources
     set_defaults
     install_vimrc
@@ -125,6 +140,9 @@ case $MODE in
     ;;
   bash)
     install_bash_aliases
+    ;;
+  zsh)
+    install_zsh
     ;;
 esac
 
