@@ -81,6 +81,10 @@ function install_ycm() {
   popd
 }
 
+function set_defaults() {
+  git config --global core.editor "vim"
+}
+
 function install_bash_aliases() {
   aliases_path=$(pwd)/.bash_aliases
   cp ~/.bashrc ~/.bashrc_backup
@@ -98,6 +102,7 @@ fi
 source ~/.bashrc
 }
 
+
 MODE=${1:-}
 if [ -z $1 ]; then
   echo "Missing required 1st argument: <INSTALLATION_MODE>"
@@ -108,10 +113,12 @@ case $MODE in
   ubuntu)
     install_bash_aliases
     rebuild_vim_from_sources
+    set_defaults
     install_vimrc
     ;;
   vim)
     rebuild_vim_from_sources
+    set_defaults
     ;;
   vimrc)
     install_vimrc
