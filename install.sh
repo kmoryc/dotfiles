@@ -43,8 +43,9 @@ function install_vimrc() {
 }
 
 function rebuild_vim_from_sources() {
+  sudo apt update
   sudo apt install -y libncurses5-dev libgtk2.0-dev libatk1.0-dev \
-    libcairo2-dev libx11-dev libxpm-dev libxt-dev python2-dev \
+    libcairo2-dev libx11-dev libxpm-dev libxt-dev \
     python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git
 
   sudo apt remove -y vim vim-runtime gvim
@@ -79,6 +80,10 @@ function install_ycm() {
   pushd ~/.vim/bundle/YouCompleteMe 
   python3 install.py --clangd-completer
   popd
+}
+
+function install_terminator() {
+  sudo apt install terminator
 }
 
 function set_defaults() {
@@ -126,10 +131,10 @@ fi
 case $MODE in
   ubuntu)
     install_bash_aliases
-    install_zsh
     rebuild_vim_from_sources
     set_defaults
     install_vimrc
+    install_terminator
     ;;
   vim)
     rebuild_vim_from_sources
@@ -143,6 +148,9 @@ case $MODE in
     ;;
   zsh)
     install_zsh
+    ;;
+  terminator)
+    install_terminator
     ;;
 esac
 
