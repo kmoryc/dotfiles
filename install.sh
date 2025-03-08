@@ -107,7 +107,9 @@ fi
 source ~/.bashrc
 }
 
-function install_zsh() {
+function install_ohmyzsh() {
+  sudo apt install -y zsh
+
   _ohmyzsh_folder=$HOME/.oh-my-zsh
   if [ ! -d $_ohmyzsh_folder ]; then
     echo "Installing OhMyZsh..."
@@ -119,6 +121,9 @@ function install_zsh() {
   zshrc_path=$(pwd)/.zshrc
   cp ~/.zshrc ~/.zshrc_backup
   cp $zshrc_path ~/.zshrc
+
+  # Change default theme
+  sed -i '/ZSH_THEME="/c\ZSH_THEME="steeef"' ~/.zshrc
 }
 
 
@@ -146,8 +151,8 @@ case $MODE in
   bash)
     install_bash_aliases
     ;;
-  zsh)
-    install_zsh
+  ohmyzsh)
+    install_ohmyzsh
     ;;
   terminator)
     install_terminator
