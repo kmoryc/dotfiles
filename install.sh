@@ -2,11 +2,20 @@
 
 set -xe
 
-function install_apt_modules() {
-  sudo apt install -y \
+function install_system_modules() {
+  sudo apt update && sudo apt install -y \
+    gimp \
     python3-pip \
     python3-venv \
-    silversearcher-ag
+    silversearcher-ag \
+    terminator
+
+  sudo snap install \
+    discord \
+    keepassxc \
+    libreoffice \
+    firefox \
+    spotify
 }
 
 function install_vimrc() {
@@ -94,10 +103,6 @@ function install_ycm() {
   popd
 }
 
-function install_terminator() {
-  sudo apt install terminator
-}
-
 function set_defaults() {
   git config --global core.editor "vim"
 }
@@ -159,16 +164,15 @@ fi
 
 case $MODE in
   ubuntu)
-    install_apt_modules
+    install_system_modules
     install_bash_aliases
     rebuild_vim_from_sources
     set_defaults
     install_vimrc
-    install_terminator
     create_gitignore
     ;;
-  apt)
-    install_apt_modules
+  modules)
+    install_system_modules
     ;;
   vim)
     rebuild_vim_from_sources
@@ -179,9 +183,6 @@ case $MODE in
     ;;
   bash)
     install_bash_aliases
-    ;;
-  terminator)
-    install_terminator
     ;;
   gitignore)
     create_gitignore
