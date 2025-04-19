@@ -2,11 +2,18 @@
 
 set -xe
 
-function install_python_ubuntu() {
-  sudo apt install python3-pip python3-venv ctags
+function install_apt_modules() {
+  sudo apt install -y \
+    python3-pip \
+    python3-venv \
+    silversearcher-ag
 }
 
 function install_vimrc() {
+  #Install required apt packages
+  sudo apt install -y \
+    silversearcher-ag # Required by mileszs/ack.vim plugin 
+
   ln -sf $(pwd)/.vimrc ~/.vimrc
   ln -sf $(pwd)/.inputrc ~/.inputrc
 
@@ -52,11 +59,13 @@ function rebuild_vim_from_sources() {
 
   _vim_dir=~/vim
   _vim_repo_url=https://github.com/vim/vim.git
+  _vim_version_tag=v9.1.1324
+
   if [ -d $_vim_dir ]; then
     echo "Directory $_vim_dir already exists. Removing..."
     rm -rf $_vim_dir
   fi
-  git clone $_vim_repo_url $_vim_dir
+  git clone --branch $_vim_version_tag $_vim_repo_url $_vim_dir
 
   pushd $_vim_dir
     _vim_install_dir=~/.local
@@ -73,6 +82,9 @@ function rebuild_vim_from_sources() {
   sudo ln -sf $_vim_install_dir/bin/vim /usr/local/bin/vim
 
   vim --version | head -n 3
+
+  #Add temporary vim swap files to gitignore
+
 }
 
 function install_ycm() { 
@@ -91,20 +103,21 @@ function set_defaults() {
 }
 
 function install_bash_aliases() {
+  _target_rc_file=${1:-~/.bashrc}
   _aliases_path=$(pwd)/.bash_aliases
-  cp ~/.bashrc ~/.bashrc_backup
+  cp $_target_rc_file "${_target_rc_file}_backup"
 
-  if grep "$_aliases_path" ~/.bashrc; then
-    echo "Path $_aliases_path already present in ~/.bashrc"
+  if grep "$_aliases_path" $_target_rc_file; then
+    echo "Path $_aliases_path already present in ${_target_rc_file}"
   else
   echo "
 if [ -f $_aliases_path ]; then
   . $_aliases_path
 fi
-" >> ~/.bashrc
+" >> $_target_rc_file
   fi
 
-source ~/.bashrc
+source $_target_rc_file
 }
 
 function install_ohmyzsh() {
@@ -124,8 +137,19 @@ function install_ohmyzsh() {
 
   # Change default theme
   sed -i '/ZSH_THEME="/c\ZSH_THEME="steeef"' ~/.zshrc
+
+  #Add bash_aliases to ~/.zshrc
+  install_bash_aliases ~/.zshrc
 }
 
+function create_gitignore() {
+  _global_gitignore_file=~/.gitignore
+  echo "
+*.swp
+*.swo
+" > $_global_gitignore_file
+  git config --global core.excludesfile $_global_gitignore_file
+}
 
 MODE=${1:-}
 if [ -z $1 ]; then
@@ -135,11 +159,16 @@ fi
 
 case $MODE in
   ubuntu)
+    install_apt_modules
     install_bash_aliases
     rebuild_vim_from_sources
     set_defaults
     install_vimrc
     install_terminator
+    create_gitignore
+    ;;
+  apt)
+    install_apt_modules
     ;;
   vim)
     rebuild_vim_from_sources
@@ -151,11 +180,14 @@ case $MODE in
   bash)
     install_bash_aliases
     ;;
-  ohmyzsh)
-    install_ohmyzsh
-    ;;
   terminator)
     install_terminator
+    ;;
+  gitignore)
+    create_gitignore
+    ;;
+  ohmyzsh)
+    install_ohmyzsh
     ;;
 esac
 

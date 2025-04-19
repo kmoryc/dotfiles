@@ -66,13 +66,15 @@ nmap <leader>giturl :G remote -v
 nmap <leader>m :copen<CR>
 Plugin 'mileszs/ack.vim'
 nmap <leader>g :Ack<SPACE>
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = "ag"
+let g:ack_default_options = " --case-sensitive --noheading --nopager --nocolor --nogroup --column"
 
 set incsearch     "Find the next match as we type the search
 set hlsearch      "Highlight all occurrences
 " hlsearch aliases
 nmap <leader>/ :nohlsearch<CR>
 
+"============ Other settings ============
 " Make backspace work
 set backspace=indent,eol,start
 
