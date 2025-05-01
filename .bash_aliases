@@ -3,7 +3,7 @@ GERRIT_DIR=$WORKSPACES/Gerrit
 GITHUB_DIR=$WORKSPACES/Github
 SETUP_DIR=$HOME/setup
 
-GIT_DEFAULT_BRANCH=master
+GIT_DEFAULT_BRANCH=${GIT_DEFAULT_BRANCH:-main}
 
 # Clear
 alias clr="clear && cd $HOME"
