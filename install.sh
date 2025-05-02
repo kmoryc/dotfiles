@@ -18,6 +18,35 @@ function install_system_modules() {
     spotify
 }
 
+function install_devops_tools() {
+  install_terraform
+}
+
+function install_terraform() {
+  sudo apt-get update && sudo apt-get install -y \
+    gnupg \
+    software-properties-common
+
+  # Install GPG key
+  wget -O- https://apt.releases.hashicorp.com/gpg | \
+  gpg --dearmor | \
+  sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+  # Verify GPG key
+  gpg --no-default-keyring \
+    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    --fingerprint
+
+  # Add Hashicorp repository
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+  sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+  #Install terraform
+  sudo apt update && sudo apt-get install -y \
+    terraform
+}
+
 function install_vimrc() {
   #Install required apt packages
   sudo apt install -y \
@@ -186,6 +215,9 @@ case $MODE in
     ;;
   gitignore)
     create_gitignore
+    ;;
+  devops)
+    install_devops_tools
     ;;
   ohmyzsh)
     install_ohmyzsh
