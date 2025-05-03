@@ -45,6 +45,11 @@ function install_terraform() {
   #Install terraform
   sudo apt update && sudo apt-get install -y \
     terraform
+
+  # Install autocomplete for commands
+  if [ -f $_aliases_path ]; then
+    terraform -install-autocomplete
+  fi
 }
 
 function install_vimrc() {
@@ -120,9 +125,6 @@ function rebuild_vim_from_sources() {
   sudo ln -sf $_vim_install_dir/bin/vim /usr/local/bin/vim
 
   vim --version | head -n 3
-
-  #Add temporary vim swap files to gitignore
-
 }
 
 function install_ycm() { 

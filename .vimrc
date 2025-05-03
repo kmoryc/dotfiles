@@ -71,6 +71,9 @@ let g:ack_default_options = " --case-sensitive --noheading --nopager --nocolor -
 
 set incsearch     "Find the next match as we type the search
 set hlsearch      "Highlight all occurrences
+set ignorecase    "Make search case-insensitive by default
+set smartcase     "Switch to case-sensitive when a Camel case letter is used
+
 " hlsearch aliases
 nmap <leader>/ :nohlsearch<CR>
 
