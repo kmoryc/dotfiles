@@ -20,6 +20,7 @@ function install_system_modules() {
 
 function install_devops_tools() {
   install_terraform
+  install_kubernetes
 }
 
 function install_terraform() {
@@ -50,6 +51,23 @@ function install_terraform() {
   if [ -f $_aliases_path ]; then
     terraform -install-autocomplete
   fi
+}
+
+function install_kubernetes() {
+  K8S_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+  
+  # Download binary
+  curl -LO "https://dl.k8s.io/release/$K8S_VERSION/bin/linux/amd64/kubectl"
+  
+  # Checksum validation
+  curl -LO "https://dl.k8s.io/release/$K8S_VERSION/bin/linux/amd64/kubectl.sha256"
+  echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+
+  # Install Kubernetes
+  sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+  # Verify installation
+  kubectl version --client --output=yaml
 }
 
 function install_vimrc() {
