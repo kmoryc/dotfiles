@@ -21,6 +21,7 @@ function install_system_modules() {
 function install_devops_tools() {
   install_terraform
   install_kubernetes
+  install_helm
 }
 
 function install_terraform() {
@@ -30,8 +31,8 @@ function install_terraform() {
 
   # Install GPG key
   wget -O- https://apt.releases.hashicorp.com/gpg | \
-  gpg --dearmor | \
-  sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+    gpg --dearmor | \
+    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
 
   # Verify GPG key
   gpg --no-default-keyring \
@@ -48,8 +49,10 @@ function install_terraform() {
     terraform
 
   # Install autocomplete for commands
+  _aliases_path=~/.bashrc
   if [ -f $_aliases_path ]; then
-    terraform -install-autocomplete
+    echo $_aliases_path
+    terraform -install-autocomplete || true
   fi
 }
 
@@ -68,6 +71,21 @@ function install_kubernetes() {
 
   # Verify installation
   kubectl version --client --output=yaml
+}
+
+function install_helm() {
+  HELM_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+  
+  # Install dependencies
+  sudo apt-get install -y apt-transport-https
+
+  curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+
+  sudo apt-get update && sudo apt-get install -y helm
+
+  # Verify installation
+  echo "Helm installed: $(helm version --short)"  
 }
 
 function install_vimrc() {
