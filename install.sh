@@ -22,6 +22,14 @@ function install_devops_tools() {
   install_terraform
   install_kubernetes
   install_helm
+<<<<<<< Updated upstream
+=======
+}
+
+function install_network_tools() {
+  sudo apt update && sudo apt install -y \
+    net-tools
+>>>>>>> Stashed changes
 }
 
 function install_terraform() {
@@ -256,6 +264,9 @@ case $MODE in
     ;;
   devops)
     install_devops_tools
+    ;;
+  network)
+    install_network_tools
     ;;
   ohmyzsh)
     install_ohmyzsh

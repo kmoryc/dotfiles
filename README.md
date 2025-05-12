@@ -27,6 +27,14 @@ Config files useful when setting up / restoring personal development environment
 ```
 ./install.sh gitignore
 ```
+* Install DevOps tools
+```
+./install.sh devops
+```
+* Install networking tools
+```
+./install.sh network
+```
 * Install ohmyzsh and set it as default shell
 ```
 ./install.sh ohmyzsh
