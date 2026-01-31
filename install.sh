@@ -193,8 +193,6 @@ if [ -f $_aliases_path ]; then
 fi
 " >> $_target_rc_file
   fi
-
-source $_target_rc_file
 }
 
 function install_ohmyzsh() {
@@ -217,6 +215,19 @@ function install_ohmyzsh() {
 
   #Add bash_aliases to ~/.zshrc
   install_bash_aliases ~/.zshrc
+
+  # Add preexec hook to display timestamp before each command
+  if grep -q "^preexec()" ~/.zshrc; then
+    echo "preexec hook already present in ~/.zshrc"
+  else
+    echo '
+# Function to execute before running a command
+preexec() {
+    # Print full date and time (Year-Month-Day Hour:Minute:Second)
+    echo -e "\e[1;32m[$(date "+%Y-%m-%d %H:%M:%S")]\e[0m"
+}
+' >> ~/.zshrc
+  fi
 }
 
 function create_gitignore() {

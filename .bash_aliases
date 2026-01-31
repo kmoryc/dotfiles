@@ -8,6 +8,9 @@ GIT_DEFAULT_BRANCH=${GIT_DEFAULT_BRANCH:-main}
 # Clear
 alias clr="clear && cd $HOME"
 
+# Clear
+alias ll="ls -alF"
+
 # Main paths
 alias cds="cd $SETUP_DIR"
 alias cdg="cd $GERRIT_DIR"
